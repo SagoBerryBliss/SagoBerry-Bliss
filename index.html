@@ -36,30 +36,25 @@
            RIGHT ROTATED NAVIGATION (KOI STYLE)
            ------------------------------------- */
         .right-nav {
-            position: fixed;
-            top: 20px;
-            right: 0px;
-            z-index: 1000;
             display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: flex-end;
-            padding-right: 20px;
-            mix-blend-mode: difference;
+            flex-direction: row;
+            gap: 35px;
+            align-items: center;
+            mix-blend-mode: color-burn;
         }
 
         .right-nav a {
-            position: relative; /* needed for pseudo‑element */
+            position: relative;
             text-decoration: none;
-            color: #fff;
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
-            font-weight: 500;
-            letter-spacing: 1px;
-            transition: transform 0.3s ease, color 0.3s;
+            color: var(--charcoal);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
             padding: 5px 0;
             cursor: pointer;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
         }
         .right-nav a::after {
             content: '';
@@ -73,7 +68,7 @@
         }
         .right-nav a:hover,
         .right-nav a:focus {
-            transform: scale(1.15);
+            transform: scale(1.05);
             color: var(--pink-dark);
         }
         .right-nav a:hover::after,
@@ -840,20 +835,20 @@
 </head>
 <body>
 
-    <!-- Right Navigation -->
-    <nav class="right-nav">
-        <a href="#home">Home</a>
-        <a href="#about">The Story</a>
-        <a href="#menu">Collection</a>
-        <a href="#order">Reserve</a>
-    </nav>
-
     <!-- Header -->
     <header>
         <a href="#" class="logo">
             <img src="images/logo.png" style="width:30px; height:30px; border-radius:50%; object-fit:cover;" alt="Logo Mark">
             Sago<span style="color: var(--pink-text)">Berry</span> Bliss
         </a>
+
+        <!-- Horizontal Navigation -->
+        <nav class="right-nav">
+            <a href="#home">Home</a>
+            <a href="#about">The Story</a>
+            <a href="#menu">Collection</a>
+            <a href="#order">Reserve</a>
+        </nav>
     </header>
 
     <!-- 1. HERO SECTION (Massive Typography) -->
@@ -1181,6 +1176,26 @@
                 <p style="color: var(--pink-text); font-weight: bold; font-size: 1.2rem;">Rp 27.000</p>
                 <p style="font-size: 0.9rem; margin-top: 10px;">Sweet and tangy twist with delightful pudding.</p>
                 <button onclick="openOrderModal('Raspberry Sunset')" class="btn-elegant" style="padding: 10px 20px; border: none; cursor: pointer;">Order</button>
+            </div>
+        </div>
+
+        <!-- BUNDLE SECTION -->
+        <div style="margin: 60px auto 0; max-width: 1000px; background: var(--pure-white); border-radius: 20px; padding: 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 40px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--pink-dark), var(--pink-text), var(--pink-dark));"></div>
+            
+            <div style="flex: 1 1 400px; text-align: left;">
+                <span style="display: inline-block; background: var(--pink-base); color: var(--pink-text); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase;">Exclusive Offer</span>
+                <h4 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--charcoal); margin-bottom: 10px;">Trio Bliss Bundle</h4>
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <p style="color: var(--pink-text); font-weight: 800; font-size: 1.8rem; margin: 0;">Rp 67.500</p>
+                    <p style="color: #999; text-decoration: line-through; font-size: 1.1rem; margin: 0;">Rp 78.000</p>
+                </div>
+                <p style="font-size: 1rem; color: #666; margin-bottom: 25px; line-height: 1.6;">Experience the full spectrum of our pastel aesthetics. Get one of each signature flavor: <strong>Strawberry Romance</strong>, <strong>Blueberry Twilight</strong>, and <strong>Raspberry Sunset</strong> in a beautifully packaged exclusive bundle.</p>
+                <button onclick="openOrderModal('Trio Bliss Bundle')" class="btn-elegant" style="padding: 15px 35px; border: none; background: var(--charcoal); color: var(--pure-white); border-radius: 30px; font-size: 1rem;">Claim Bundle</button>
+            </div>
+            
+            <div style="flex: 1 1 300px; height: 260px; border-radius: 15px; overflow: hidden; display: flex; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+                <img src="images/foto_background2.jpg" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" alt="Trio Bliss Bundle">
             </div>
         </div>
     </section>
