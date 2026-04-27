@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SagoBerry Bliss</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400;1,600&family=Montserrat:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --pink-base: #FFDFE5; /* Soft blush pink */
+            --pink-dark: #FFB3C1;
+            --pink-text: #C95A75;
+            --charcoal: #3A3535;
+            --pure-white: #FFFFFF;
+            --beige-soft: #F9F4EB; /* Soft creamy beige */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            cursor: default;
+        }
+
+        html, body {
+            background-color: var(--pink-base);
+            color: var(--charcoal);
+            font-family: 'Montserrat', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* -------------------------------------
+           RIGHT ROTATED NAVIGATION (KOI STYLE)
+           ------------------------------------- */
+        .right-nav {
+            position: fixed;
+            top: 20px;
+            right: 0px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-end;
+            padding-right: 20px;
+            mix-blend-mode: difference;
+        }
+
+        .right-nav a {
+            position: relative; /* needed for pseudo‑element */
+            text-decoration: none;
+            color: #fff;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: transform 0.3s ease, color 0.3s;
+            padding: 5px 0;
+            cursor: pointer;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        .right-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0;
+            height: 2px;
+            background: var(--pink-dark);
+            transition: width 0.3s ease;
+        }
+        .right-nav a:hover,
+        .right-nav a:focus {
+            transform: scale(1.15);
+            color: var(--pink-dark);
+        }
+        .right-nav a:hover::after,
+        .right-nav a:focus::after {
+            width: 100%;
+        }
+        .right-nav a:active {
+            transform: scale(0.95);
+        }
+
+        /* -------------------------------------
+           HEADER
+           ------------------------------------- */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 30px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--charcoal);
+            text-decoration: none;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            mix-blend-mode: color-burn;
+            cursor: pointer;
+        }
+
+        /* -------------------------------------
+           FULL SCREEN HERO (HORIZONTAL SCROLL)
+           ------------------------------------- */
+        .hero {
+            position: relative;
+            width: 100vw;
+            height: 400vh; /* High scroll height */
+            background-color: var(--pure-white);
+        }
+
+        .hero-sticky-wrapper {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            /* Background on the wrapper reduces browser fixed-scroll scaling artifacts */
+            background-image: url('images/foto_background2.jpg?v=5');
+            background-size: cover;
+            background-position: center bottom; /* Anchor focus downwards to show the full cups */
+            image-rendering: high-quality;
+            image-rendering: -webkit-optimize-contrast; /* Force browser to sharpen */
+        }
+
+        /* A light pink overlay to soften everything */
+        .hero-sticky-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 223, 229, 0.3);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Massive Typography Wrapper */
+        .massive-text-container {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%) translateX(0); /* Driven by JS */
+            display: flex;
+            align-items: center;
+            width: max-content;
+            padding: 0 10vw;
+            gap: 2vw;
+            z-index: 3;
+            will-change: transform;
+        }
+
+        .massive-letter {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 35vw;
+            line-height: 0.8;
+            color: var(--charcoal);
+            opacity: 0.95;
+            user-select: none;
+            letter-spacing: -1vw;
+            flex-shrink: 0;
+            display: inline-block;
+        }
+
+        /* The KOI 'O' Circular Cutout Equivalent */
+        .circular-o-wrapper {
+            position: relative;
+            width: 32vw;
+            height: 32vw;
+            max-width: 600px;
+            max-height: 600px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin: 0;
+            vertical-align: middle;
+            margin-bottom: 5vw;
+        }
+
+        /* The thick ring forming the O */
+        .circular-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 12vw solid var(--charcoal);
+            border-radius: 50%;
+            box-sizing: border-box;
+            background: transparent; /* Center is transparent showing background */
+        }
+        
+        @media (min-width: 1200px) {
+            .circular-ring {
+                border-width: 130px;
+            }
+        }
+
+        /* Rotating Text around the ring */
+        .rotating-text {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            animation: rotateText 25s linear infinite;
+        }
+
+        @keyframes rotateText {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .rotating-text svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+        
+        .rotating-text path {
+            fill: transparent;
+        }
+        
+        .rotating-text text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            fill: white;
+        }
+
+        /* Bottom Text */
+        .bottom-title {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            text-align: center;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            z-index: 100;
+            color: var(--charcoal);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        .mouse-icon {
+            width: 22px;
+            height: 38px;
+            border: 2px solid var(--charcoal);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .wheel {
+            width: 2px;
+            height: 8px;
+            background: var(--charcoal);
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scroll-wheel 1.8s infinite ease-out;
+        }
+
+        @keyframes scroll-wheel {
+            0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+            70% { transform: translateX(-50%) translateY(15px); opacity: 0; }
+            100% { transform: translateX(-50%) translateY(0); opacity: 0; }
+        }
+
+        .bottom-title h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: var(--pure-white);
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+        }
+
+        .bottom-title p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--charcoal);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(5px);
+            padding: 10px 20px;
+            border-radius: 30px;
+        }
+
+        /* -------------------------------------
+           SCROLL SEQUENCE CUP (SVG)
+           ------------------------------------- */
+        .scroll-sequence-container {
+            position: relative;
+            width: 100vw;
+            height: 500vh; /* Long scroll to fill */
+            background-color: var(--pink-base); /* Pure pink base */
+            z-index: 50;
+        }
+
+        .sticky-cup-wrapper {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            /* Removed old solid gradient to show Marquee wall */
+        }
+
+        /* -------------------------------------
+           KOI STYLE MARQUEE WALL & INGREDIENTS
+           ------------------------------------- */
+        .koi-marquee-wall {
+            position: absolute;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly; /* Spread rows perfectly to avoid empty bottoms */
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .koi-row {
+            display: flex;
+            white-space: nowrap;
+        }
+
+        .koi-row span {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem; /* Much smaller, elegant font size */
+            color: rgba(30,30,30,0.1);
+            padding-right: 50px;
+            line-height: 1.2;
+            letter-spacing: 2px;
+        }
+
+        .koi-left span { animation: koiMoveLeft 35s linear infinite; }
+        .koi-right span { animation: koiMoveRight 35s linear infinite; }
+
+        @keyframes koiMoveLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        @keyframes koiMoveRight {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(0); }
+        }
+
+        .koi-ingredient {
+            position: absolute;
+            z-index: 1;
+            object-fit: cover;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            border: 6px solid #fff;
+            animation: floatUp 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+            100% { transform: translateY(-30px) rotate(calc(var(--rot, 0deg) + 5deg)); }
+        }
+
+        .cup-title {
+            position: absolute;
+            top: 25vh;
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--pink-text);
+            text-align: center;
+            background: rgba(255,255,255,0.7);
+            padding: 10px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+            z-index: 10;
+        }
+
+
+
+
+        .cup-svg-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            z-index: 5;
+            margin-top: 5vh;
+            filter: drop-shadow(0px 20px 30px rgba(0,0,0,0.15));
+        }
+
+        .cup-glass {
+            fill: rgba(255, 255, 255, 0.4);
+            stroke: rgba(255, 255, 255, 0.9);
+            stroke-width: 6;
+            backdrop-filter: blur(10px);
+        }
+
+        .ingredient-layer {
+            transform-origin: center center;
+            transition: opacity 0.1s, transform 0.1s;
+        }
+
+        /* -------------------------------------
+           SECOND SECTION: EDITORIAL PARALLAX
+           ------------------------------------- */
+        .editorial-section {
+            min-height: 100vh;
+            background: #FFF5F7; /* Softer, lighter pink to differentiate */
+            padding: 120px 10%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            position: relative;
+        }
+
+        .editorial-img-wrapper {
+            position: relative;
+        }
+        
+        .editorial-img {
+            width: 100%;
+            height: 70vh;
+            object-fit: cover;
+            box-shadow: 20px 20px 0px var(--pink-dark);
+        }
+
+        .editorial-text h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: var(--pink-text);
+            line-height: 1.1;
+            margin-bottom: 30px;
+        }
+
+        .editorial-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--charcoal);
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .btn-elegant {
+            display: inline-block;
+            padding: 15px 40px;
+            border: 1px solid var(--charcoal);
+            color: var(--charcoal);
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-elegant:hover {
+            background: var(--charcoal);
+            color: var(--pure-white);
+        }
+
+        /* -------------------------------------
+           MENU COLLECTION (Vertical Clean)
+           ------------------------------------- */
+        .menu-section {
+            background: var(--beige-soft);
+            padding: 120px 5%;
+            text-align: center;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1300px;
+            margin: 80px auto 0;
+        }
+
+        .menu-card {
+            text-align: left;
+            padding: 30px;
+            background: var(--pure-white);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* Halus banget */
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-15px); /* Floating effect layer */
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+        }
+
+        .menu-card div {
+            width: 100%;
+            height: 450px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border-radius: 15px; /* So the image sits well inside card */
+        }
+
+        .menu-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.2) sepia(0.1);
+            transition: filter 0.5s, transform 0.5s;
+        }
+
+        .menu-card:hover img {
+            filter: none;
+            transform: scale(1.05);
+        }
+
+        .menu-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--charcoal);
+            margin-bottom: 10px;
+        }
+        
+        .menu-card p {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        /* -------------------------------------
+           FOOTER
+           ------------------------------------- */
+        footer {
+            background: var(--charcoal);
+            color: var(--pink-base);
+            padding: 60px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .massive-letter { font-size: 30vw; }
+            .circular-o-wrapper { width: 30vw; height: 30vw; }
+            .editorial-section { grid-template-columns: 1fr; gap: 40px;}
+            .editorial-img { height: 50vh;}
+        }
+
+        @media (max-width: 768px) {
+            .right-nav { top: 10px; flex-direction: row; right: 10px; flex-wrap: wrap; justify-content: flex-end;}
+            .right-nav a { transform: none; font-size: 0.7rem; }
+            .massive-text-container { flex-direction: column; justify-content: center; height: 100vh; gap: 20px;}
+            .massive-letter { font-size: 60vw; line-height: 0.7;}
+            .circular-o-wrapper { width: 60vw; height: 60vw; margin: 0; }
+            .circular-ring { border-width: 60px; }
+            .bottom-title { bottom: 5%; width: 90%; }
+            .bottom-title h2 { font-size: 1.8rem; }
+            .menu-grid { grid-template-columns: 1fr; }
+        }
+
+        /* -------------------------------------
+           MARQUEE FOOTER SECTION
+           ------------------------------------- */
+        .marquee-container {
+            width: 100vw;
+            overflow: hidden;
+            background-color: var(--pink-dark);
+            color: #fff;
+            padding: 15px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .marquee-content {
+            display: flex;
+            white-space: nowrap;
+            /* Duplicated items so sliding halfway perfectly loops */
+            animation: marquee 25s linear infinite;
+        }
+
+        .marquee-content span {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-right: 40px;
+            display: inline-block;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* -------------------------------------
+           ORDER MODAL (GLASSMORPHISM)
+           ------------------------------------- */
+        .order-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .order-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .order-modal-card {
+            background: rgba(255, 255, 255, 0.85);
+            width: 90%;
+            max-width: 450px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(233, 30, 99, 0.15);
+            border: 1px solid rgba(255, 255, 255, 1);
+            transform: translateY(30px);
+            transition: transform 0.4s ease;
+            position: relative;
+        }
+
+        /* Custom scrollbar for modal */
+        .order-modal-card::-webkit-scrollbar {
+            width: 6px;
+        }
+        .order-modal-card::-webkit-scrollbar-thumb {
+            background: var(--pink-dark);
+            border-radius: 10px;
+        }
+
+        .order-modal-overlay.active .order-modal-card {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 1.5rem;
+            color: var(--pink-dark);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .modal-close:hover {
+            transform: scale(1.2) rotate(90deg);
+        }
+
+        .order-modal-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--charcoal);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .order-product-name {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--pink-base);
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .order-form-group {
+            margin-bottom: 15px;
+        }
+
+        .order-form-group label {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 5px;
+        }
+
+        .order-form-group input, .order-form-group textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(233, 30, 99, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .order-form-group input:focus, .order-form-group textarea:focus {
+            border-color: var(--pink-base);
+        }
+
+        .btn-wa-submit {
+            width: 100%;
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 18px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.25);
+        }
+
+        .btn-wa-submit:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(37, 211, 102, 0.35);
+        }
+
+        .modal-divider {
+            margin: 30px 0 20px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(0,0,0,0.1), transparent);
+            z-index: 0;
+        }
+
+        .modal-divider span {
+            background: #fff;
+            padding: 0 20px;
+            color: #aaa;
+            font-size: 0.75rem;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        .apps-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-app {
+            flex: 1;
+            padding: 14px;
+            border-radius: 18px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            border: 1.5px solid transparent;
+        }
+
+        .btn-gofood {
+            background: #fdf2f2;
+            color: #EE2737;
+            border-color: rgba(238, 39, 55, 0.1);
+        }
+
+        .btn-gofood:hover {
+            background: #EE2737;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(238, 39, 55, 0.15);
+        }
+
+        .btn-shopeefood {
+            background: #fef4f1;
+            color: #EE4D2D;
+            border-color: rgba(238, 77, 45, 0.1);
+        }
+
+        .btn-shopeefood:hover {
+            background: #EE4D2D;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(238, 77, 45, 0.15);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Right Navigation -->
+    <nav class="right-nav">
+        <a href="#home">Home</a>
+        <a href="#about">The Story</a>
+        <a href="#menu">Collection</a>
+        <a href="#order">Reserve</a>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">
+            <img src="images/logo.png" style="width:30px; height:30px; border-radius:50%; object-fit:cover;" alt="Logo Mark">
+            Sago<span style="color: var(--pink-text)">Berry</span> Bliss
+        </a>
+    </header>
+
+    <!-- 1. HERO SECTION (Massive Typography) -->
+    <section id="home" class="hero">
+        <div class="hero-sticky-wrapper">
+            <div class="massive-text-container" id="scrollContainer">
+            <div class="massive-letter">S</div>
+            <div class="massive-letter">A</div>
+            <div class="massive-letter">G</div>
+            <div class="circular-o-wrapper">
+                <div class="circular-ring"></div>
+                <div class="rotating-text">
+                    <svg viewBox="0 0 200 200">
+                        <path id="circlePath" d="
+                            M 100, 100
+                            m -85, 0
+                            a 85,85 0 1,1 170,0
+                            a 85,85 0 1,1 -170,0
+                        " />
+                        <text>
+                            <textPath href="#circlePath" startOffset="0%">
+                                A Berry good day, sweetening your problems away. 🍓 A Berry good day, sweetening your problems away.
+                            </textPath>
+                        </text>
+                    </svg>
+                </div>
+            </div>
+            <div class="massive-letter">B</div>
+            <div class="massive-letter">E</div>
+            <div class="massive-letter">R</div>
+            <div class="massive-letter">R</div>
+            <div class="massive-letter">Y</div>
+            <div class="massive-letter" style="margin-left: 5vw;">B</div>
+            <div class="massive-letter">L</div>
+            <div class="massive-letter">I</div>
+            <div class="massive-letter">S</div>
+            <div class="massive-letter">S</div>
+        </div>
+
+        <div class="bottom-title">
+            <h2>Your Daily Berry</h2>
+            <p>Happiness is to share special moments with aesthetics. Freshly prepared with passion.</p>
+        </div>
+
+        <div class="scroll-indicator">
+            <span>Scroll for more sweetness</span>
+            <div class="mouse-icon">
+                <div class="wheel"></div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- 2. SCROLL SEQUENCE: THE ART OF PREPARATION -->
+    <section id="preparation" class="scroll-sequence-container">
+        <div class="sticky-cup-wrapper">
+            
+            <!-- KOI-STYLE WALL -->
+            <div class="koi-marquee-wall">
+                <div class="koi-row koi-left"><span>SagoBerry Bliss • Premium Dessert • Handcrafted • SagoBerry Bliss • Premium Dessert • Handcrafted •</span><span>SagoBerry Bliss • Premium Dessert • Handcrafted • SagoBerry Bliss • Premium Dessert • Handcrafted •</span></div>
+                <div class="koi-row koi-right"><span>Real Strawberry • Chewy Sago • Sweet Milk • Real Strawberry • Chewy Sago • Sweet Milk •</span><span>Real Strawberry • Chewy Sago • Sweet Milk • Real Strawberry • Chewy Sago • Sweet Milk •</span></div>
+                <div class="koi-row koi-left"><span>Happiness in a Tub • Daily Berry • Best Taste • Happiness in a Tub • Daily Berry • Best Taste •</span><span>Happiness in a Tub • Daily Berry • Best Taste • Happiness in a Tub • Daily Berry • Best Taste •</span></div>
+                <!-- Duplicate rows to fill screen -->
+                <div class="koi-row koi-right"><span>SagoBerry Bliss • Premium Dessert • Handcrafted • SagoBerry Bliss • Premium Dessert • Handcrafted •</span><span>SagoBerry Bliss • Premium Dessert • Handcrafted • SagoBerry Bliss • Premium Dessert • Handcrafted •</span></div>
+                <div class="koi-row koi-left"><span>Real Strawberry • Chewy Sago • Sweet Milk • Real Strawberry • Chewy Sago • Sweet Milk •</span><span>Real Strawberry • Chewy Sago • Sweet Milk • Real Strawberry • Chewy Sago • Sweet Milk •</span></div>
+                <div class="koi-row koi-right"><span>Happiness in a Tub • Daily Berry • Best Taste • Happiness in a Tub • Daily Berry • Best Taste •</span><span>Happiness in a Tub • Daily Berry • Best Taste • Happiness in a Tub • Daily Berry • Best Taste •</span></div>
+                <div class="koi-row koi-left"><span>SagoBerry Bliss • Premium Dessert • Handcrafted • SagoBerry Bliss • Premium Dessert • Handcrafted •</span><span>SagoBerry Bliss • Premium Dessert • Handcrafted • SagoBerry Bliss • Premium Dessert • Handcrafted •</span></div>
+                <div class="koi-row koi-right"><span>Real Strawberry • Chewy Sago • Sweet Milk • Real Strawberry • Chewy Sago • Sweet Milk •</span><span>Real Strawberry • Chewy Sago • Sweet Milk • Real Strawberry • Chewy Sago • Sweet Milk •</span></div>
+                <div class="koi-row koi-left"><span>Happiness in a Tub • Daily Berry • Best Taste • Happiness in a Tub • Daily Berry • Best Taste •</span><span>Happiness in a Tub • Daily Berry • Best Taste • Happiness in a Tub • Daily Berry • Best Taste •</span></div>
+                <div class="koi-row koi-right"><span>SagoBerry Bliss • Premium Dessert • Handcrafted • SagoBerry Bliss • Premium Dessert • Handcrafted •</span><span>SagoBerry Bliss • Premium Dessert • Handcrafted • SagoBerry Bliss • Premium Dessert • Handcrafted •</span></div>
+            </div>
+
+
+
+
+            <div class="cup-title" id="cupText" style="z-index: 20; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); padding: 5px 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">Building your Bliss...</div>
+            
+            <div class="scroll-indicator" id="scrollIndicatorCup">
+                <span>Scroll to build your cup</span>
+                <div class="mouse-icon">
+                    <div class="wheel"></div>
+                </div>
+            </div>
+            <div class="cup-svg-container" style="z-index: 5;">
+                <svg viewBox="0 0 400 400" width="100%" height="100%">
+                    <defs>
+                        <!-- Gradients for depth and liquid effects -->
+                        <radialGradient id="puree-grad" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#E91E63"/>
+                            <stop offset="100%" stop-color="#880E4F"/>
+                        </radialGradient>
+                        <radialGradient id="milk-grad" cx="50%" cy="50%" r="50%">
+                            <stop offset="40%" stop-color="rgba(255,255,255,1)"/>
+                            <stop offset="90%" stop-color="rgba(255,223,229,0.85)"/>
+                            <stop offset="100%" stop-color="rgba(255,255,255,0.4)"/>
+                        </radialGradient>
+                        <!-- Shadow filter for elements inside -->
+                        <filter id="drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+                        </filter>
+                        <filter id="light-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="1" dy="1" stdDeviation="2" flood-opacity="0.2"/>
+                        </filter>
+
+                        <!-- Clip Path for the Sticker -->
+                        <clipPath id="circle-clip">
+                            <circle cx="200" cy="200" r="115" />
+                        </clipPath>
+
+                        <!-- Beautiful Strawberry Slice Component -->
+                        <g id="strawberry">
+                            <!-- Base red shape (heart/strawberry profile) -->
+                            <path d="M 0 15 C -20 5, -20 -15, 0 -10 C 20 -15, 20 5, 0 15 Z" fill="#E91E63" />
+                            <path d="M 0 14 C -17 5, -17 -13, 0 -8 C 17 -13, 17 5, 0 14 Z" fill="#D81B60" />
+                            
+                            <!-- White core blending out -->
+                            <path d="M 0 10 C -8 2, -8 -8, 0 -6 C 8 -8, 8 2, 0 10 Z" fill="rgba(255,255,255,0.5)" />
+                            
+                            <!-- Little yellow seeds -->
+                            <circle cx="-8" cy="2" r="1.2" fill="#FFEB3B" opacity="0.9"/>
+                            <circle cx="8" cy="2" r="1.2" fill="#FFEB3B" opacity="0.9"/>
+                            <circle cx="-4" cy="-4" r="1.2" fill="#FFEB3B" opacity="0.9"/>
+                            <circle cx="4" cy="-4" r="1.2" fill="#FFEB3B" opacity="0.9"/>
+                            <circle cx="0" cy="7" r="1.2" fill="#FFEB3B" opacity="0.9"/>
+                            <circle cx="-12" cy="-4" r="1.2" fill="#FFEB3B" opacity="0.9"/>
+                            <circle cx="12" cy="-4" r="1.2" fill="#FFEB3B" opacity="0.9"/>
+                            
+                            <!-- Optional Tiny Green Leaf Cap (if it was a whole berry, but it's diced, so we'll leave it sliced) -->
+                        </g>
+                    </defs>
+
+                    <!-- Back of Glass (Base Depth) -->
+                    <rect x="25" y="25" width="350" height="350" rx="55" fill="#fdf2f4" stroke="none" />
+                    <!-- Inner well shadow -->
+                    <rect x="30" y="30" width="340" height="340" rx="50" fill="transparent" stroke="rgba(0,0,0,0.05)" stroke-width="10" />
+
+                    <!-- 1. Puree -->
+                    <g id="layer-puree" class="ingredient-layer" style="transform: scale(0); opacity: 0;">
+                        <!-- Organic puree spread -->
+                        <path d="M 50 150 C 50 80, 100 40, 200 40 C 300 40, 360 80, 350 200 C 340 320, 260 360, 150 360 C 60 360, 50 250, 50 150 Z" fill="url(#puree-grad)" />
+                    </g>
+
+                    <!-- 2. Sago -->
+                    <g id="layer-sago" class="ingredient-layer" style="transform: scale(0); opacity: 0;">
+                        <g filter="url(#drop-shadow)">
+                            <!-- Scattering of Sago -->
+                            <circle cx="200" cy="200" r="12" fill="#D81B60"/>
+                            <circle cx="170" cy="180" r="10" fill="#AD1457"/>
+                            <circle cx="230" cy="210" r="11" fill="#C2185B"/>
+                            <circle cx="150" cy="220" r="12" fill="#D81B60"/>
+                            <circle cx="250" cy="170" r="10" fill="#AD1457"/>
+                            <circle cx="130" cy="150" r="9" fill="#E91E63"/>
+                            <circle cx="280" cy="240" r="13" fill="#D81B60"/>
+                            <circle cx="210" cy="140" r="11" fill="#C2185B"/>
+                            <circle cx="160" cy="280" r="12" fill="#D81B60"/>
+                            <circle cx="250" cy="290" r="10" fill="#AD1457"/>
+                            <circle cx="90" cy="200" r="11" fill="#C2185B"/>
+                            <circle cx="310" cy="190" r="12" fill="#D81B60"/>
+                            <circle cx="120" cy="250" r="10" fill="#AD1457"/>
+                            <!-- Inner highlights -->
+                            <circle cx="198" cy="198" r="4" fill="rgba(255,255,255,0.4)"/>
+                            <circle cx="168" cy="178" r="3" fill="rgba(255,255,255,0.4)"/>
+                            <circle cx="228" cy="208" r="4" fill="rgba(255,255,255,0.4)"/>
+                            <circle cx="148" cy="218" r="4" fill="rgba(255,255,255,0.4)"/>
+                        </g>
+                    </g>
+                    
+                    <!-- 3. Nata de Coco -->
+                    <g id="layer-nata" class="ingredient-layer" style="transform: scale(0); opacity: 0;">
+                        <g filter="url(#light-shadow)">
+                            <!-- Squares -->
+                            <rect x="180" y="240" width="22" height="22" rx="4" fill="rgba(255,255,255,0.85)"/>
+                            <rect x="250" y="110" width="20" height="24" rx="4" fill="rgba(240,240,240,0.8)" transform="rotate(15 260 120)"/>
+                            <rect x="90" y="250" width="25" height="20" rx="4" fill="rgba(255,255,255,0.9)" transform="rotate(-20 100 260)"/>
+                            <rect x="140" y="100" width="22" height="22" rx="4" fill="rgba(240,240,240,0.85)"/>
+                            <rect x="300" y="270" width="24" height="24" rx="4" fill="rgba(255,255,255,0.9)" transform="rotate(10 310 280)"/>
+                            <rect x="110" y="150" width="20" height="20" rx="4" fill="rgba(240,240,240,0.8)" transform="rotate(45 120 160)"/>
+                            <rect x="270" y="200" width="25" height="22" rx="4" fill="rgba(255,255,255,0.85)"/>
+                        </g>
+                    </g>
+
+                    <!-- 4. Jelly -->
+                    <g id="layer-jelly" class="ingredient-layer" style="transform: scale(0); opacity: 0;">
+                        <g filter="url(#drop-shadow)">
+                            <rect x="200" y="150" width="24" height="24" rx="6" fill="rgba(244,143,177,0.85)"/>
+                            <rect x="120" y="180" width="22" height="25" rx="6" fill="rgba(244,143,177,0.8)" transform="rotate(25 130 190)"/>
+                            <rect x="240" y="250" width="26" height="22" rx="6" fill="rgba(248,187,208,0.9)" transform="rotate(-15 250 260)"/>
+                            <rect x="280" y="130" width="24" height="24" rx="6" fill="rgba(244,143,177,0.85)" transform="rotate(10 290 140)"/>
+                            <rect x="170" y="290" width="24" height="24" rx="6" fill="rgba(248,187,208,0.9)" transform="rotate(-30 180 300)"/>
+                            <rect x="90" y="100" width="20" height="20" rx="6" fill="rgba(244,143,177,0.8)" transform="rotate(40 100 110)"/>
+                        </g>
+                    </g>
+                    
+                    <!-- 5. Selasih -->
+                    <g id="layer-selasih" class="ingredient-layer" style="transform: scale(0); opacity: 0;">
+                        <!-- Groups of seeds -->
+                        <g transform="translate(150, 150)">
+                            <circle cx="0" cy="0" r="5" fill="rgba(200,200,200,0.5)"/><circle cx="0" cy="0" r="2" fill="#222"/>
+                            <circle cx="12" cy="5" r="4.5" fill="rgba(200,200,200,0.5)"/><circle cx="12" cy="5" r="1.8" fill="#222"/>
+                            <circle cx="5" cy="-10" r="4" fill="rgba(200,200,200,0.5)"/><circle cx="5" cy="-10" r="1.5" fill="#222"/>
+                        </g>
+                        <g transform="translate(240, 260)">
+                            <circle cx="0" cy="0" r="5" fill="rgba(200,200,200,0.5)"/><circle cx="0" cy="0" r="2" fill="#222"/>
+                            <circle cx="-10" cy="-8" r="4" fill="rgba(200,200,200,0.5)"/><circle cx="-10" cy="-8" r="1.5" fill="#222"/>
+                            <circle cx="8" cy="-5" r="5" fill="rgba(200,200,200,0.5)"/><circle cx="8" cy="-5" r="2" fill="#222"/>
+                            <circle cx="2" cy="12" r="4.5" fill="rgba(200,200,200,0.5)"/><circle cx="2" cy="12" r="1.8" fill="#222"/>
+                        </g>
+                        <g transform="translate(100, 200)">
+                            <circle cx="0" cy="0" r="5" fill="rgba(200,200,200,0.5)"/><circle cx="0" cy="0" r="2" fill="#222"/>
+                            <circle cx="10" cy="10" r="4.5" fill="rgba(200,200,200,0.5)"/><circle cx="10" cy="10" r="1.8" fill="#222"/>
+                        </g>
+                        <g transform="translate(280, 150)">
+                            <circle cx="0" cy="0" r="5" fill="rgba(200,200,200,0.5)"/><circle cx="0" cy="0" r="2" fill="#222"/>
+                            <circle cx="-5" cy="10" r="4" fill="rgba(200,200,200,0.5)"/><circle cx="-5" cy="10" r="1.5" fill="#222"/>
+                        </g>
+                        <g transform="translate(180, 280)">
+                            <circle cx="0" cy="0" r="5" fill="rgba(200,200,200,0.5)"/><circle cx="0" cy="0" r="2" fill="#222"/>
+                            <circle cx="8" cy="-8" r="4.5" fill="rgba(200,200,200,0.5)"/><circle cx="8" cy="-8" r="1.8" fill="#222"/>
+                        </g>
+                    </g>
+
+                    <!-- 6. Milk + Ice -->
+                    <g id="layer-milk" class="ingredient-layer" style="transform: scale(0); opacity: 0;">
+                        <!-- Full inner tub milky overlay -->
+                        <rect x="35" y="35" width="330" height="330" rx="45" fill="url(#milk-grad)" />
+                        <!-- Scattered Ice -->
+                        <g filter="url(#drop-shadow)">
+                            <!-- Big cubes -->
+                            <rect x="180" y="170" width="60" height="60" rx="12" fill="rgba(255,255,255,0.7)" stroke="#fff" stroke-width="2" transform="rotate(15 210 200)"/>
+                            <path d="M 195 185 L 225 190 M 190 200 L 230 205" stroke="rgba(255,255,255,0.9)" stroke-width="2" opacity="0.5" transform="rotate(15 210 200)"/>
+                            
+                            <rect x="120" y="240" width="55" height="55" rx="12" fill="rgba(255,255,255,0.6)" stroke="#fff" stroke-width="2" transform="rotate(-20 147 267)"/>
+                            
+                            <rect x="250" y="100" width="50" height="50" rx="10" fill="rgba(255,255,255,0.7)" stroke="#fff" stroke-width="2" transform="rotate(45 275 125)"/>
+                            
+                            <rect x="80" y="120" width="60" height="60" rx="15" fill="rgba(255,255,255,0.6)" stroke="#fff" stroke-width="2" transform="rotate(-15 110 150)"/>
+                        </g>
+                    </g>
+
+                    <!-- 7. Diced Fruit -->
+                    <g id="layer-fruit" class="ingredient-layer" style="transform: scale(0); opacity: 0;">
+                        <g filter="url(#drop-shadow)">
+                            <!-- Scattering realistic strawberry slices -->
+                            <use href="#strawberry" x="180" y="160" transform="rotate(15 180 160) scale(1.2)" />
+                            <use href="#strawberry" x="230" y="230" transform="rotate(-40 230 230) scale(1.1)" />
+                            <use href="#strawberry" x="130" y="200" transform="rotate(110 130 200) scale(1.3)" />
+                            <use href="#strawberry" x="270" y="180" transform="rotate(-15 270 180) scale(1.25)" />
+                            <use href="#strawberry" x="160" y="270" transform="rotate(65 160 270) scale(1.15)" />
+                            <use href="#strawberry" x="110" y="240" transform="rotate(-110 110 240) scale(1)" />
+                            <use href="#strawberry" x="250" y="140" transform="rotate(70 250 140) scale(0.9)" />
+                        </g>
+                    </g>
+                    
+                    <!-- 8. Lid & Sticker -->
+                    <g id="layer-lid" class="ingredient-layer" style="transform: scale(0); opacity: 0;">
+                        <!-- Plastic Lid Base with light blue/white tint -->
+                        <rect x="15" y="15" width="370" height="370" rx="65" fill="rgba(255, 255, 255, 0.3)" stroke="rgba(255, 255, 255, 0.9)" stroke-width="4"/>
+                        <!-- Deep clear lid edge -->
+                        <rect x="25" y="25" width="350" height="350" rx="55" fill="transparent" stroke="rgba(255, 255, 255, 0.6)" stroke-width="8"/>
+                        
+                        <!-- Glare/Reflection on lid -->
+                        <path d="M 30 180 C 100 130 180 50 220 30 L 150 30 C 100 80 50 150 30 100 Z" fill="rgba(255,255,255,0.6)" />
+                        <path d="M 370 200 C 350 280 280 350 200 370 L 250 370 C 300 330 350 280 370 250 Z" fill="rgba(255,255,255,0.4)" />
+                        
+                        <!-- Sticker Base -->
+                        <g filter="url(#drop-shadow)">
+                            <circle cx="200" cy="200" r="125" fill="#fff" stroke="#FFDFE5" stroke-width="8"/>
+                            <!-- Inner dotted Ring -->
+                            <circle cx="200" cy="200" r="116" fill="none" stroke="#FFB3C1" stroke-width="4" stroke-dasharray="10 8"/>
+                            
+                            <!-- Dummy text in case image doesn't load yet -->
+                            <text x="200" y="195" font-family="'Playfair Display', serif" font-weight="800" font-size="28" fill="#C95A75" text-anchor="middle">SagoBerry</text>
+                            <text x="200" y="215" font-family="'Montserrat', sans-serif" font-style="italic" font-weight="600" font-size="14" fill="#3A3535" text-anchor="middle">Premium</text>
+                            <text x="200" y="235" font-family="'Montserrat', sans-serif" font-weight="800" font-size="10" fill="#FFB3C1" text-anchor="middle">HAPPINESS IN A TUB</text>
+                            
+                            <!-- Logo image (Requires images/logo.png to exist) -->
+                            <image href="images/logo.png" x="80" y="80" width="240" height="240" preserveAspectRatio="xMidYMid slice" clip-path="url(#circle-clip)"/>
+                        </g>
+                    </g>
+
+                    <!-- Glass Front Overlay / Tub Lid Rim Base -->
+                    <!-- We can remove the old empty glass layer since the lid acts as the top -->
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. EDITORIAL / THE STORY -->
+    <section id="about" class="editorial-section">
+        <div class="editorial-img-wrapper">
+            <img src="images/foto_kumpulan.jpg" class="editorial-img" alt="Strawberry Bliss">
+        </div>
+        <div class="editorial-text">
+            <h3>Handcrafted Perfection</h3>
+            <p style="font-weight: 500; font-size: 1.2rem; color: var(--pink-text); margin-bottom: 25px;">A symphony of fresh fruits and creamy bliss.</p>
+            <p>Born out of a genuine obsession for artisanal desserts, <strong>SagoBerry Bliss</strong> is more than just a drink—it is a carefully curated aesthetic experience. We set out on a journey to redefine exactly what a dessert drink should be: something fundamentally wholesome yet decadently satisfying.</p>
+            <p>Every cup begins its life in our kitchen with hand-picked, plump strawberries, juicy wild blueberries, and perfectly tangy raspberries. We refuse to use artificial syrups; instead, we patiently crush real, fresh fruits into a rich, vibrant puree that absolutely sings with natural nectar.</p>
+            <p>To balance the bright punch of our signature berry blends, we introduce our velvety, smooth milk and delicately chewy sago pearls. When seamlessly combined, the creamy milk dances vividly with the colorful fruit juice, creating a mesmerizing pastel swirl that tastes just as magical as it looks. We truly believe that true happiness can be served in a tub.</p>
+            <a href="#menu" class="btn-elegant">Discover More</a>
+        </div>
+    </section>
+
+    <!-- 4. SIGNATURE COLLECTION (MENU) -->
+    <section id="menu" class="menu-section">
+        <h3 style="font-size: 3rem; font-family: 'Playfair Display', serif; color: var(--pink-text); margin-bottom: 20px;">Our Collection</h3>
+        <p style="font-size: 1.1rem; color: var(--charcoal); margin-bottom: 40px; font-style: italic;">Select your favorite pastel aesthetic.</p>
+        <div class="menu-grid">
+            <div class="menu-card">
+                <div><img src="images/foto_strawberry.jpg" alt="Strawberry Romance"></div>
+                <h4>Strawberry Romance</h4>
+                <p style="color: var(--pink-text); font-weight: bold; font-size: 1.2rem;">Rp 25.000</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">Rich strawberry juice, creamy milk, chewy sago.</p>
+                <button onclick="openOrderModal('Strawberry Romance')" class="btn-elegant" style="padding: 10px 20px; border: none; cursor: pointer;">Order</button>
+            </div>
+            <div class="menu-card">
+                <div><img src="images/foto_blueberry.jpg" alt="Blueberry Twilight"></div>
+                <h4>Blueberry Twilight</h4>
+                <p style="color: var(--pink-text); font-weight: bold; font-size: 1.2rem;">Rp 26.000</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">Antioxidant-rich blueberry blend with pearls.</p>
+                <button onclick="openOrderModal('Blueberry Twilight')" class="btn-elegant" style="padding: 10px 20px; border: none; cursor: pointer;">Order</button>
+            </div>
+            <div class="menu-card">
+                <div><img src="images/foto_raspberry.jpg" alt="Raspberry Sunset"></div>
+                <h4>Raspberry Sunset</h4>
+                <p style="color: var(--pink-text); font-weight: bold; font-size: 1.2rem;">Rp 27.000</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">Sweet and tangy twist with delightful pudding.</p>
+                <button onclick="openOrderModal('Raspberry Sunset')" class="btn-elegant" style="padding: 10px 20px; border: none; cursor: pointer;">Order</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4.5. EVENT & PARTY CATERING -->
+    <section id="catering" style="background: var(--pink-base); padding: 100px 5%; text-align: center;">
+        <div style="max-width: 800px; margin: 0 auto; background: rgba(255, 255, 255, 0.5); padding: 50px; border-radius: 30px; box-shadow: 0 15px 30px rgba(0,0,0,0.05); backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.7);">
+            <i class="fas fa-glass-cheers" style="font-size: 3rem; color: var(--pink-text); margin-bottom: 20px;"></i>
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 2.8rem; color: var(--charcoal); margin-bottom: 20px;">Celebrate with Us!</h3>
+            <p style="font-size: 1.1rem; color: var(--charcoal); margin-bottom: 30px; line-height: 1.8;">
+                Make your special moments sweeter. We happily accept bulk orders for <strong>Birthday Parties, Weddings, Corporate Events</strong>, and any joyous gatherings. Let SagoBerry Bliss be the centerpiece of your joy.
+            </p>
+            <button onclick="window.open('https://wa.me/' + ADMIN_WA_NUMBER + '?text=Halo%20SagoBerry,%20saya%20tertarik%20pesan%20untuk%20acara!', '_blank');" class="btn-elegant" style="background: var(--pink-text); color: var(--pure-white); border: none; padding: 15px 40px; border-radius: 50px; font-weight: bold; font-size: 1rem; box-shadow: 0 10px 20px rgba(201, 90, 117, 0.3);">
+                Order for Events
+            </button>
+        </div>
+    </section>
+
+    <!-- MARQUEE BAR SEPARATOR -->
+    <div class="marquee-container">
+        <div class="marquee-content">
+            <!-- 5 items first set -->
+            <span>🍓 Premium Sago Dessert</span><span>Your Daily Berry</span><span>Freshly Crafted</span><span>HAPPINESS IN A TUB</span><span>100% Bliss</span>
+            <!-- 5 items identical loop -->
+            <span>🍓 Premium Sago Dessert</span><span>Your Daily Berry</span><span>Freshly Crafted</span><span>HAPPINESS IN A TUB</span><span>100% Bliss</span>
+        </div>
+    </div>
+
+    <!-- 5. FOOTER & ABOUT BRAND -->
+    <footer id="order" style="background-color: var(--charcoal); color: var(--pure-white); padding: 80px 10%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; align-items: start;">
+        <div class="footer-brand">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--pink-base); margin-bottom: 20px;">SagoBerry.</h2>
+            <p style="color: #ccc; line-height: 1.8; font-size: 0.95rem;">
+                <strong>SagoBerry Bliss</strong> lahir dari kecintaan kami pada sajian manis yang tidak hanya indah dipandang, namun juga menyegarkan. Menghadirkan keseimbangan sempurna antara buah sungguhan dan susu creamy berkualitas.
+            </p>
+        </div>
+        <div class="footer-links">
+            <h4 style="font-family: 'Montserrat', sans-serif; font-size: 1.2rem; margin-bottom: 20px; text-transform: uppercase;">Explore</h4>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 15px;"><a href="#preparation" style="color: #ccc; text-decoration: none; transition: color 0.3s;">How We Make It</a></li>
+                <li style="margin-bottom: 15px;"><a href="#about" style="color: #ccc; text-decoration: none; transition: color 0.3s;">The Story</a></li>
+                <li style="margin-bottom: 15px;"><a href="#menu" style="color: #ccc; text-decoration: none; transition: color 0.3s;">Signature Collection</a></li>
+            </ul>
+        </div>
+        <div class="footer-contact">
+             <h4 style="font-family: 'Montserrat', sans-serif; font-size: 1.2rem; margin-bottom: 20px; text-transform: uppercase;">Visit Us</h4>
+             <p style="color: #ccc; line-height: 1.8; font-size: 0.95rem;">
+                📍 Jln. Penegak MBG No. 561<br>
+                🕒 Open Daily: 10.00 - 21.00 WIB
+             </p>
+             <p style="margin-top: 20px; color: #888;">&copy; 2026 SagoBerry Bliss.<br>Made with passion.</p>
+        </div>
+    </footer>
+
+    <!-- 5. ELEGANT ORDER MODAL -->
+    <div id="orderModal" class="order-modal-overlay">
+        <div class="order-modal-card">
+            <i class="fas fa-times modal-close" onclick="closeOrderModal()"></i>
+            
+            <h3>Claim your bliss</h3>
+            <div class="order-product-name" id="modalProductName">Strawberry Romance</div>
+            
+            <!-- WhatsApp Order Form -->
+            <div class="order-form-group">
+                <label for="orderName">Your Name</label>
+                <input type="text" id="orderName" placeholder="e.g. Rina">
+            </div>
+            <div class="order-form-group">
+                <label for="orderRegion">Area (Bandung Only)</label>
+                <select id="orderRegion" style="width:100%; border: 1px solid rgba(233, 30, 99, 0.2); border-radius: 12px; padding: 12px; font-family: inherit; font-size: 0.95rem; color: var(--charcoal); outline: none;">
+                    <option value="">-- Pilih Wilayah --</option>
+                    <option value="Bandung Tengah">Bandung Tengah</option>
+                    <option value="Bandung Utara">Bandung Utara (Dago/Ciumbuleuit)</option>
+                    <option value="Bandung Selatan">Bandung Selatan (Buahbatu/Dayeuhkolot)</option>
+                    <option value="Bandung Timur">Bandung Timur (Antapani/Arcamanik)</option>
+                    <option value="Bandung Barat">Bandung Barat (Pasteur/Cimahi)</option>
+                </select>
+            </div>
+            <div class="order-form-group">
+                <label for="orderStreet">Street Name / Landmark</label>
+                <input type="text" id="orderStreet" placeholder="e.g. Jln. Dago No. 12 / Dekat Masjid">
+            </div>
+            <div class="order-form-group">
+                <label for="orderDetail">House No. / Block / Floor</label>
+                <input type="text" id="orderDetail" placeholder="e.g. No. 45 / Blok C / Lantai 2">
+            </div>
+            <div class="order-form-group" style="display: flex; gap: 10px;">
+                <div style="flex:1;">
+                    <label for="orderQty">Quantity</label>
+                    <input type="number" id="orderQty" value="1" min="1">
+                </div>
+            </div>
+            <div class="order-form-group">
+                <label>Add-ons (Optional)</label>
+                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 5px; padding: 12px; border: 1px solid rgba(233, 30, 99, 0.2); border-radius: 10px; background: rgba(255, 223, 229, 0.1);">
+                    <label style="font-weight: 500; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--charcoal);">
+                        <input type="checkbox" id="addonCheese" value="Cheese (+Rp 3.000)" style="width: auto; margin: 0; cursor: pointer; accent-color: var(--pink-text);"> 🧀 Cheese (+Rp 3.000)
+                    </label>
+                </div>
+            </div>
+            <div class="order-form-group">
+                <label for="orderNotes">Special Notes (Optional)</label>
+                <textarea id="orderNotes" rows="2" placeholder="e.g. Extra ice, less sugar..."></textarea>
+            </div>
+            <button class="btn-wa-submit" onclick="submitWhatsAppOrder()">
+                <i class="fab fa-whatsapp"></i> Order via WhatsApp
+            </button>
+
+            <!-- Delivery Apps Links -->
+            <div class="modal-divider"><span>Or order instantly via Apps</span></div>
+            <div class="apps-buttons">
+                <!-- Change href '#' to your actual store link when ready -->
+                <a href="#" onclick="alert('ShopeeFood link coming soon!');" class="btn-app btn-shopeefood"><i class="fas fa-shopping-bag"></i> ShopeeFood</a>
+                <a href="#" onclick="alert('GoFood link coming soon!');" class="btn-app btn-gofood"><i class="fas fa-motorcycle"></i> GoFood</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Massive Text Horizontal Scroll-Jacking --- //
+        const heroSection = document.getElementById('home');
+        const massiveTextContainer = document.getElementById('scrollContainer');
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+
+        window.addEventListener('scroll', () => {
+            if (!heroSection || !massiveTextContainer) return;
+
+            const rect = heroSection.getBoundingClientRect();
+            const scrollDistance = heroSection.offsetHeight - window.innerHeight;
+            
+            // Calculate progress (0 to 1) for the hero section
+            let progress = (-rect.top) / scrollDistance;
+            if (progress < 0) progress = 0;
+            if (progress > 1) progress = 1;
+
+            // Keep scroll indicator visible until near the end of the horizontal scroll
+            if (scrollIndicator) {
+                if (progress < 0.8) {
+                    scrollIndicator.style.opacity = "0.9";
+                    scrollIndicator.style.pointerEvents = "auto";
+                } else {
+                    // Fade out in the last 20% of the hero section
+                    let fadeOutProgress = (progress - 0.8) / 0.2; 
+                    scrollIndicator.style.opacity = Math.max(0.9 * (1 - fadeOutProgress), 0).toString();
+                    scrollIndicator.style.pointerEvents = "none";
+                }
+            }
+
+            // Maximum slide width (text overflow minus window plus padding)
+            const buffer = window.innerWidth * 0.1;
+            const maxTranslate = massiveTextContainer.scrollWidth - window.innerWidth + buffer; 
+
+            if (maxTranslate > 0) {
+                massiveTextContainer.style.transform = `translateY(-50%) translateX(-${progress * maxTranslate}px)`;
+            }
+        });
+
+        // --- Sequence Cup Animation --- //
+        const sequenceContainer = document.querySelector('.scroll-sequence-container');
+        const cupText = document.getElementById('cupText');
+        const scrollIndicatorCup = document.getElementById('scrollIndicatorCup');
+        const layers = [
+            document.getElementById('layer-puree'),
+            document.getElementById('layer-sago'),
+            document.getElementById('layer-nata'),
+            document.getElementById('layer-jelly'),
+            document.getElementById('layer-selasih'),
+            document.getElementById('layer-milk'),
+            document.getElementById('layer-fruit'),
+            document.getElementById('layer-lid')
+        ];
+
+        const ingredientNames = [
+            "Strawberry Puree",
+            "Chewy Sago",
+            "Nata de Coco",
+            "Pink Jelly Cubes",
+            "Basil Seeds",
+            "Evaporated Milk",
+            "Diced Fresh Berries",
+            "Sealed & Ready to Serve!"
+        ];
+
+        window.addEventListener('scroll', () => {
+            if(!sequenceContainer) return;
+
+            const rect = sequenceContainer.getBoundingClientRect();
+            // Total scrollable height inside the sequence container
+            const scrollableHeight = sequenceContainer.offsetHeight - window.innerHeight;
+            
+            // Progress calculation 0 to 1
+            let progress = (-rect.top) / scrollableHeight;
+            if (progress < 0) progress = 0;
+            if (progress > 1) progress = 1;
+
+            // Keep scroll indicator visible until the cup is almost fully built
+            if (scrollIndicatorCup) {
+                if (progress < 0.8) {
+                    scrollIndicatorCup.style.opacity = "0.9";
+                    scrollIndicatorCup.style.pointerEvents = "auto";
+                } else {
+                    let fadeOutProgress = (progress - 0.8) / 0.2;
+                    scrollIndicatorCup.style.opacity = Math.max(0.9 * (1 - fadeOutProgress), 0).toString();
+                    scrollIndicatorCup.style.pointerEvents = "none";
+                }
+            }
+
+            const totalLayers = layers.length;
+            let activeLayerIndex = -1;
+
+            layers.forEach((layer, index) => {
+                // Determine the scroll fraction assigned to this layer
+                const layerStart = index / totalLayers;
+                const layerEnd = (index + 1) / totalLayers;
+
+                let localProgress = (progress - layerStart) / (layerEnd - layerStart);
+                if (localProgress < 0) localProgress = 0;
+                if (localProgress > 1) localProgress = 1;
+
+                // Transform origin is at center now, so scale from 0.8 to 1 simulates depth stacking
+                layer.style.transform = `scale(${0.8 + localProgress * 0.2})`;
+                // Opacity fades in over the local progress smoothly
+                layer.style.opacity = Math.min(localProgress * 2, 1);
+
+                if (localProgress > 0) {
+                    activeLayerIndex = index;
+                }
+            });
+
+            // Update floating title text
+            if (progress > 0 && progress < 1) {
+                cupText.style.opacity = '1';
+                cupText.style.transform = 'translateY(0)';
+                if (activeLayerIndex >= 0) {
+                    cupText.innerText = ingredientNames[activeLayerIndex];
+                }
+            } else {
+                cupText.style.opacity = '0';
+                cupText.style.transform = 'translateY(20px)';
+            }
+            
+
+
+        });
+
+        // --- Order Modal Logic --- //
+        const orderModal = document.getElementById('orderModal');
+        const modalProductName = document.getElementById('modalProductName');
+        // Ganti dengan nomor WA admin (Contoh: 6281234567890)
+        const ADMIN_WA_NUMBER = "6285871023448"; 
+        
+        // Open Modal
+        function openOrderModal(productName) {
+            modalProductName.textContent = productName;
+            orderModal.classList.add('active');
+        }
+
+        // Close Modal
+        function closeOrderModal() {
+            orderModal.classList.remove('active');
+        }
+
+        // Close modal if clicking outside the card
+        orderModal.addEventListener('click', (e) => {
+            if (e.target === orderModal) {
+                closeOrderModal();
+            }
+        });
+
+        // WhatsApp Submit Logic
+        function submitWhatsAppOrder() {
+            const name = document.getElementById('orderName').value.trim();
+            const qty = document.getElementById('orderQty').value;
+            const region = document.getElementById('orderRegion').value;
+            const street = document.getElementById('orderStreet').value.trim();
+            const detail = document.getElementById('orderDetail').value.trim();
+            const addonCheese = document.getElementById('addonCheese').checked;
+            const notes = document.getElementById('orderNotes').value.trim();
+            const product = modalProductName.textContent;
+
+            if(!name || !region || !street) {
+                alert("Tolong isi nama, wilayah, dan nama jalanmu yang lengkap ya! 😊");
+                return;
+            }
+
+            const fullAddress = `${street}${detail ? ', ' + detail : ''} (${region}, Bandung)`;
+
+            // Membangun format string pesan
+            let message = `Halo *SagoBerry Bliss*!
+Aku *${name}* mau pesan dessert cantiknya nih.
+
+`;
+            message += `*${qty} Cup ${product}*\n`;
+            
+            let addedOns = [];
+            if (addonCheese) addedOns.push("Cheese (+Rp 3.000)");
+            
+            if (addedOns.length > 0) {
+                message += `Add-ons: ${addedOns.join(", ")}\n`;
+            }
+
+            if (notes !== "") {
+                message += `Catatan: ${notes}\n`;
+            }
+            message += `Alamat: ${fullAddress}\n`;
+            message += `\nApakah masih tersedia Kak?`;
+
+            // Membuat URL WhatsApp
+            const waUrl = `https://wa.me/${ADMIN_WA_NUMBER}?text=${encodeURIComponent(message)}`;
+            
+            // Buka di tab baru
+            window.open(waUrl, '_blank');
+            closeOrderModal();
+        }
+    </script>
+</body>
+</html>
