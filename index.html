@@ -577,8 +577,8 @@
         }
 
         @media (max-width: 768px) {
-            .right-nav { top: 10px; flex-direction: row; right: 10px; flex-wrap: wrap; justify-content: flex-end;}
-            .right-nav a { transform: none; font-size: 0.7rem; }
+            .right-nav { display: none; }
+            .hamburger { display: block; }
             .massive-text-container { flex-direction: column; justify-content: center; height: 100vh; gap: 20px;}
             .massive-letter { font-size: 60vw; line-height: 0.7;}
             .circular-o-wrapper { width: 60vw; height: 60vw; margin: 0; }
@@ -831,6 +831,112 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(238, 77, 45, 0.15);
         }
+
+        /* -------------------------------------
+           NEW UI ELEMENTS
+           ------------------------------------- */
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(255, 239, 242, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .mobile-nav-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mobile-nav-overlay a {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--charcoal);
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .mobile-nav-overlay a:hover {
+            transform: scale(1.1);
+            color: var(--pink-text);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--charcoal);
+            color: var(--pure-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            z-index: 900;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: #222;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            color: var(--pure-white);
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background: var(--pure-white);
+            color: var(--charcoal);
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 <body>
@@ -849,7 +955,20 @@
             <a href="#menu">Collection</a>
             <a href="#order">Reserve</a>
         </nav>
+
+        <!-- Hamburger Icon (Mobile) -->
+        <div class="hamburger" onclick="toggleMobileNav()">
+            <i class="fas fa-bars"></i>
+        </div>
     </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="mobile-nav-overlay" id="mobileNav">
+        <a href="#home" onclick="toggleMobileNav()">Home</a>
+        <a href="#about" onclick="toggleMobileNav()">The Story</a>
+        <a href="#menu" onclick="toggleMobileNav()">Collection</a>
+        <a href="#order" onclick="toggleMobileNav()">Reserve</a>
+    </div>
 
     <!-- 1. HERO SECTION (Massive Typography) -->
     <section id="home" class="hero">
@@ -1201,16 +1320,27 @@
     </section>
 
     <!-- 4.5. EVENT & PARTY CATERING -->
-    <section id="catering" style="background: var(--pink-base); padding: 100px 5%; text-align: center;">
-        <div style="max-width: 800px; margin: 0 auto; background: rgba(255, 255, 255, 0.5); padding: 50px; border-radius: 30px; box-shadow: 0 15px 30px rgba(0,0,0,0.05); backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.7);">
-            <i class="fas fa-glass-cheers" style="font-size: 3rem; color: var(--pink-text); margin-bottom: 20px;"></i>
-            <h3 style="font-family: 'Playfair Display', serif; font-size: 2.8rem; color: var(--charcoal); margin-bottom: 20px;">Celebrate with Us!</h3>
-            <p style="font-size: 1.1rem; color: var(--charcoal); margin-bottom: 30px; line-height: 1.8;">
-                Make your special moments sweeter. We happily accept bulk orders for <strong>Birthday Parties, Weddings, Corporate Events</strong>, and any joyous gatherings. Let SagoBerry Bliss be the centerpiece of your joy.
-            </p>
-            <button onclick="window.open('https://wa.me/' + ADMIN_WA_NUMBER + '?text=Halo%20SagoBerry,%20saya%20tertarik%20pesan%20untuk%20acara!', '_blank');" class="btn-elegant" style="background: var(--pink-text); color: var(--pure-white); border: none; padding: 15px 40px; border-radius: 50px; font-weight: bold; font-size: 1rem; box-shadow: 0 10px 20px rgba(201, 90, 117, 0.3);">
-                Order for Events
-            </button>
+    <section id="catering" style="background: linear-gradient(to bottom, var(--pink-base), #FFF5F7); padding: 120px 5%; display: flex; justify-content: center;">
+        <div style="max-width: 1100px; width: 100%; display: flex; flex-wrap: wrap; background: rgba(255, 255, 255, 0.85); border-radius: 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.06); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,1); overflow: hidden; transform: translateY(0); transition: transform 0.5s ease;" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
+            
+            <!-- Left Image -->
+            <div style="flex: 1 1 400px; position: relative;">
+                <img src="images/bundling1.jpg" alt="Memorable" style="width: 100%; height: 100%; object-fit: cover; min-height: 400px; filter: contrast(1.1) saturate(1.1);">
+            </div>
+
+            <!-- Right Content -->
+            <div style="flex: 1 1 400px; padding: 70px 60px; display: flex; flex-direction: column; justify-content: center; text-align: left;">
+                <span style="font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: var(--pink-text); margin-bottom: 0; transform: rotate(-4deg); display: inline-block; width: max-content; opacity: 0.9; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">Make it memorable</span>
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--charcoal); margin-bottom: 20px; line-height: 1.1;">Celebrate<br>with Us!</h3>
+                <p style="font-size: 1.05rem; color: var(--charcoal); margin-bottom: 35px; line-height: 1.8; opacity: 0.9;">
+                    Elevate your special moments. We proudly accept bulk orders for <strong>Birthday Parties, Weddings, Corporate Events</strong>, and any joyous gatherings. Let SagoBerry Bliss be the aesthetic centerpiece of your celebration.
+                </p>
+                <div>
+                    <button onclick="window.open('https://wa.me/' + ADMIN_WA_NUMBER + '?text=Halo%20SagoBerry,%20saya%20tertarik%20pesan%20untuk%20acara!', '_blank');" class="btn-elegant" style="background: var(--charcoal); color: var(--pure-white); border: none; padding: 16px 45px; border-radius: 50px; font-weight: bold; font-size: 1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: transform 0.3s, box-shadow 0.3s; display: inline-flex; align-items: center; gap: 10px; cursor: pointer;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 25px rgba(0,0,0,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.2)'">
+                        <i class="fas fa-glass-cheers"></i> Order for Events
+                    </button>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1231,6 +1361,11 @@
             <p style="color: #ccc; line-height: 1.8; font-size: 0.95rem;">
                 <strong>SagoBerry Bliss</strong> lahir dari kecintaan kami pada sajian manis yang tidak hanya indah dipandang, namun juga menyegarkan. Menghadirkan keseimbangan sempurna antara buah sungguhan dan susu creamy berkualitas.
             </p>
+            <div class="social-icons">
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://wa.me/6285871023448" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
         </div>
         <div class="footer-links">
             <h4 style="font-family: 'Montserrat', sans-serif; font-size: 1.2rem; margin-bottom: 20px; text-transform: uppercase;">Explore</h4>
@@ -1246,6 +1381,9 @@
                 📍 Jln. Penegak MBG No. 561<br>
                 🕒 Open Daily: 10.00 - 21.00 WIB
              </p>
+             <a href="https://maps.google.com/?q=Jln.+Penegak+MBG+No.+561+Bandung" target="_blank" class="btn-elegant" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: var(--pure-white); padding: 8px 15px; font-size: 0.8rem; margin-top: 15px; display: inline-flex; align-items: center; gap: 8px; border-radius: 20px;">
+                 <i class="fas fa-map-marker-alt"></i> Get Directions
+             </a>
              <p style="margin-top: 20px; color: #888;">&copy; 2026 SagoBerry Bliss.<br>Made with passion.</p>
         </div>
     </footer>
@@ -1312,6 +1450,11 @@
                 <a href="#" onclick="alert('GoFood link coming soon!');" class="btn-app btn-gofood"><i class="fas fa-motorcycle"></i> GoFood</a>
             </div>
         </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop" onclick="scrollToTop()">
+        <i class="fas fa-chevron-up"></i>
     </div>
 
     <script>
@@ -1509,6 +1652,40 @@ Aku *${name}* mau pesan dessert cantiknya nih.
             // Buka di tab baru
             window.open(waUrl, '_blank');
             closeOrderModal();
+        }
+
+        // --- Hamburger mobile nav logic ---
+        const mobileNav = document.getElementById('mobileNav');
+        const hamburgerIcon = document.querySelector('.hamburger i');
+        
+        function toggleMobileNav() {
+            if(!mobileNav) return;
+            mobileNav.classList.toggle('active');
+            if(mobileNav.classList.contains('active')) {
+                hamburgerIcon.classList.remove('fa-bars');
+                hamburgerIcon.classList.add('fa-times');
+            } else {
+                hamburgerIcon.classList.remove('fa-times');
+                hamburgerIcon.classList.add('fa-bars');
+            }
+        }
+
+        // --- Back to top logic ---
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if(!backToTopBtn) return;
+            if (window.scrollY > 500) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
     </script>
 </body>
