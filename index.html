@@ -124,21 +124,16 @@
             height: 100vh;
             overflow: hidden;
             /* Background on the wrapper reduces browser fixed-scroll scaling artifacts */
-            background-image: url('images/foto_background2.jpg?v=5');
+            background-image: url('images/foto_background2.jpg');
             background-size: cover;
             background-position: center bottom; /* Anchor focus downwards to show the full cups */
             image-rendering: high-quality;
             image-rendering: -webkit-optimize-contrast; /* Force browser to sharpen */
         }
 
-        /* A light pink overlay to soften everything */
+        /* Removed overlay to show natural photo colors */
         .hero-sticky-wrapper::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 223, 229, 0.3);
-            z-index: 1;
-            pointer-events: none;
+            display: none;
         }
 
         /* Massive Typography Wrapper */
@@ -1258,7 +1253,7 @@
     <!-- 3. EDITORIAL / THE STORY -->
     <section id="about" class="editorial-section">
         <div class="editorial-img-wrapper">
-            <img src="images/foto_kumpulan.jpg" class="editorial-img" alt="Strawberry Bliss">
+            <img src="images/foto_background2.jpg" class="editorial-img" alt="Trio Bliss">
         </div>
         <div class="editorial-text">
             <h3>Handcrafted Perfection</h3>
@@ -1314,7 +1309,7 @@
             </div>
             
             <div style="flex: 1 1 300px; height: 260px; border-radius: 15px; overflow: hidden; display: flex; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
-                <img src="images/foto_background2.jpg" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" alt="Trio Bliss Bundle">
+                <img src="images/foto_kumpulan.jpg" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" alt="Trio Bliss Bundle">
             </div>
         </div>
     </section>
