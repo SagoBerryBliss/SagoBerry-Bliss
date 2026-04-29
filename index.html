@@ -406,8 +406,8 @@
 
         .cup-svg-container {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: min(400px, 85vw);
+            height: min(400px, 85vw);
             z-index: 5;
             margin-top: 5vh;
             filter: drop-shadow(0px 20px 30px rgba(0,0,0,0.15));
@@ -572,15 +572,25 @@
         }
 
         @media (max-width: 768px) {
+            header { padding: 20px 5%; }
             .right-nav { display: none; }
             .hamburger { display: block; }
-            .massive-text-container { flex-direction: column; justify-content: center; height: 100vh; gap: 20px;}
-            .massive-letter { font-size: 60vw; line-height: 0.7;}
-            .circular-o-wrapper { width: 60vw; height: 60vw; margin: 0; }
-            .circular-ring { border-width: 60px; }
-            .bottom-title { bottom: 5%; width: 90%; }
+            .massive-text-container { flex-direction: column; justify-content: center; height: 100vh; gap: 10px; padding: 0;}
+            .massive-letter { font-size: 55vw; line-height: 0.7;}
+            .circular-o-wrapper { width: 55vw; height: 55vw; margin: 0; }
+            .circular-ring { border-width: 50px; }
+            .bottom-title { bottom: 8%; width: 90%; }
             .bottom-title h2 { font-size: 1.8rem; }
-            .menu-grid { grid-template-columns: 1fr; }
+            .bottom-title p { font-size: 0.9rem; padding: 8px 15px; }
+            .menu-grid { grid-template-columns: 1fr; gap: 30px; }
+            .menu-card { padding: 20px; }
+            .menu-card div { height: 350px; }
+            .editorial-section { padding: 60px 5%; }
+            .editorial-text h3 { font-size: 2.5rem; }
+            footer { grid-template-columns: 1fr !important; gap: 40px; text-align: center; }
+            .footer-brand, .footer-links, .footer-contact { display: flex; flex-direction: column; align-items: center; }
+            .social-icons { justify-content: center; }
+            .cup-title { font-size: 1.8rem; top: 15vh; width: 80%; }
         }
 
         /* -------------------------------------
@@ -907,30 +917,64 @@
             box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
         }
 
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .social-icons a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 50%;
-            color: var(--pure-white);
-            font-size: 1.2rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-icons a:hover {
+        /* -------------------------------------
+           REFACTORED BUNDLE & CATERING (RESPONSIVE)
+           ------------------------------------- */
+        .bundle-container {
+            margin: 60px auto 0;
+            max-width: 1000px;
             background: var(--pure-white);
-            color: var(--charcoal);
-            transform: translateY(-3px);
+            border-radius: 20px;
+            padding: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bundle-badge-line {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: linear-gradient(90deg, var(--pink-dark), var(--pink-text), var(--pink-dark));
+        }
+
+        .bundle-content { flex: 1 1 400px; text-align: left; }
+        .bundle-tag { display: inline-block; background: var(--pink-base); color: var(--pink-text); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase; }
+        .bundle-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--charcoal); margin-bottom: 10px; }
+        .bundle-price-row { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .price-now { color: var(--pink-text); font-weight: 800; font-size: 1.8rem; margin: 0; }
+        .price-before { color: #999; text-decoration: line-through; font-size: 1.1rem; margin: 0; }
+        .bundle-desc { font-size: 1rem; color: #666; margin-bottom: 25px; line-height: 1.6; }
+        .btn-bundle { padding: 15px 35px; border: none; background: var(--charcoal); color: var(--pure-white); border-radius: 30px; font-size: 1rem; }
+
+        .bundle-image { flex: 1 1 300px; height: 260px; border-radius: 15px; overflow: hidden; display: flex; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .bundle-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+
+        .catering-section { background: linear-gradient(to bottom, var(--pink-base), #FFF5F7); padding: 120px 5%; display: flex; justify-content: center; }
+        .catering-card { max-width: 1100px; width: 100%; display: flex; flex-wrap: wrap; background: rgba(255, 255, 255, 0.85); border-radius: 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.06); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,1); overflow: hidden; transition: transform 0.5s ease; }
+        .catering-card:hover { transform: translateY(-10px); }
+        .catering-img-wrapper { flex: 1 1 400px; position: relative; }
+        .catering-img-wrapper img { width: 100%; height: 100%; object-fit: cover; min-height: 400px; filter: contrast(1.1) saturate(1.1); }
+        .catering-content { flex: 1 1 400px; padding: 70px 60px; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+        .catering-accent { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: var(--pink-text); margin-bottom: 0; transform: rotate(-4deg); display: inline-block; width: max-content; opacity: 0.9; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .catering-title { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--charcoal); margin-bottom: 20px; line-height: 1.1; }
+        .catering-desc { font-size: 1.05rem; color: var(--charcoal); margin-bottom: 35px; line-height: 1.8; opacity: 0.9; }
+        .btn-catering { background: var(--charcoal); color: var(--pure-white); border: none; padding: 16px 45px; border-radius: 50px; font-weight: bold; font-size: 1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: all 0.3s; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
+        .btn-catering:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(0,0,0,0.3); }
+
+        @media (max-width: 768px) {
+            .bundle-container { padding: 30px 20px; margin-top: 30px; gap: 20px; }
+            .bundle-title { font-size: 1.8rem; }
+            .bundle-image { height: 200px; }
+            .catering-section { padding: 60px 5%; }
+            .catering-content { padding: 40px 25px; }
+            .catering-title { font-size: 2.2rem; }
+            .catering-accent { font-size: 2.2rem; }
+            .catering-img-wrapper img { min-height: 300px; }
         }
     </style>
 </head>
@@ -1280,58 +1324,58 @@
             <div class="menu-card">
                 <div><img src="images/foto_blueberry.jpg" alt="Blueberry Twilight"></div>
                 <h4>Blueberry Twilight</h4>
-                <p style="color: var(--pink-text); font-weight: bold; font-size: 1.2rem;">Rp 26.000</p>
+                <p style="color: var(--pink-text); font-weight: bold; font-size: 1.2rem;">Rp 25.000</p>
                 <p style="font-size: 0.9rem; margin-top: 10px;">Antioxidant-rich blueberry blend with pearls.</p>
                 <button onclick="openOrderModal('Blueberry Twilight')" class="btn-elegant" style="padding: 10px 20px; border: none; cursor: pointer;">Order</button>
             </div>
             <div class="menu-card">
                 <div><img src="images/foto_raspberry.jpg" alt="Raspberry Sunset"></div>
                 <h4>Raspberry Sunset</h4>
-                <p style="color: var(--pink-text); font-weight: bold; font-size: 1.2rem;">Rp 27.000</p>
+                <p style="color: var(--pink-text); font-weight: bold; font-size: 1.2rem;">Rp 25.000</p>
                 <p style="font-size: 0.9rem; margin-top: 10px;">Sweet and tangy twist with delightful pudding.</p>
                 <button onclick="openOrderModal('Raspberry Sunset')" class="btn-elegant" style="padding: 10px 20px; border: none; cursor: pointer;">Order</button>
             </div>
         </div>
 
         <!-- BUNDLE SECTION -->
-        <div style="margin: 60px auto 0; max-width: 1000px; background: var(--pure-white); border-radius: 20px; padding: 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 40px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); position: relative; overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--pink-dark), var(--pink-text), var(--pink-dark));"></div>
+        <div class="bundle-container">
+            <div class="bundle-badge-line"></div>
             
-            <div style="flex: 1 1 400px; text-align: left;">
-                <span style="display: inline-block; background: var(--pink-base); color: var(--pink-text); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase;">Exclusive Offer</span>
-                <h4 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--charcoal); margin-bottom: 10px;">Trio Bliss Bundle</h4>
-                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
-                    <p style="color: var(--pink-text); font-weight: 800; font-size: 1.8rem; margin: 0;">Rp 67.500</p>
-                    <p style="color: #999; text-decoration: line-through; font-size: 1.1rem; margin: 0;">Rp 78.000</p>
+            <div class="bundle-content">
+                <span class="bundle-tag">Exclusive Offer</span>
+                <h4 class="bundle-title">Trio Bliss Bundle</h4>
+                <div class="bundle-price-row">
+                    <p class="price-now">Rp 67.500</p>
+                    <p class="price-before">Rp 75.000</p>
                 </div>
-                <p style="font-size: 1rem; color: #666; margin-bottom: 25px; line-height: 1.6;">Experience the full spectrum of our pastel aesthetics. Get one of each signature flavor: <strong>Strawberry Romance</strong>, <strong>Blueberry Twilight</strong>, and <strong>Raspberry Sunset</strong> in a beautifully packaged exclusive bundle.</p>
-                <button onclick="openOrderModal('Trio Bliss Bundle')" class="btn-elegant" style="padding: 15px 35px; border: none; background: var(--charcoal); color: var(--pure-white); border-radius: 30px; font-size: 1rem;">Claim Bundle</button>
+                <p class="bundle-desc">Experience the full spectrum of our pastel aesthetics. Get one of each signature flavor: <strong>Strawberry Romance</strong>, <strong>Blueberry Twilight</strong>, and <strong>Raspberry Sunset</strong> in a beautifully packaged exclusive bundle.</p>
+                <button onclick="openOrderModal('Trio Bliss Bundle')" class="btn-elegant btn-bundle">Claim Bundle</button>
             </div>
             
-            <div style="flex: 1 1 300px; height: 260px; border-radius: 15px; overflow: hidden; display: flex; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
-                <img src="images/foto_kumpulan.jpg" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" alt="Trio Bliss Bundle">
+            <div class="bundle-image">
+                <img src="images/foto_kumpulan.jpg" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" alt="Trio Bliss Bundle">
             </div>
         </div>
     </section>
 
     <!-- 4.5. EVENT & PARTY CATERING -->
-    <section id="catering" style="background: linear-gradient(to bottom, var(--pink-base), #FFF5F7); padding: 120px 5%; display: flex; justify-content: center;">
-        <div style="max-width: 1100px; width: 100%; display: flex; flex-wrap: wrap; background: rgba(255, 255, 255, 0.85); border-radius: 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.06); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,1); overflow: hidden; transform: translateY(0); transition: transform 0.5s ease;" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
+    <section id="catering" class="catering-section">
+        <div class="catering-card">
             
             <!-- Left Image -->
-            <div style="flex: 1 1 400px; position: relative;">
-                <img src="images/bundling1.jpg" alt="Memorable" style="width: 100%; height: 100%; object-fit: cover; min-height: 400px; filter: contrast(1.1) saturate(1.1);">
+            <div class="catering-img-wrapper">
+                <img src="images/bundling1.jpg" alt="Memorable">
             </div>
 
             <!-- Right Content -->
-            <div style="flex: 1 1 400px; padding: 70px 60px; display: flex; flex-direction: column; justify-content: center; text-align: left;">
-                <span style="font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: var(--pink-text); margin-bottom: 0; transform: rotate(-4deg); display: inline-block; width: max-content; opacity: 0.9; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">Make it memorable</span>
-                <h3 style="font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--charcoal); margin-bottom: 20px; line-height: 1.1;">Celebrate<br>with Us!</h3>
-                <p style="font-size: 1.05rem; color: var(--charcoal); margin-bottom: 35px; line-height: 1.8; opacity: 0.9;">
+            <div class="catering-content">
+                <span class="catering-accent">Make it memorable</span>
+                <h3 class="catering-title">Celebrate<br>with Us!</h3>
+                <p class="catering-desc">
                     Elevate your special moments. We proudly accept bulk orders for <strong>Birthday Parties, Weddings, Corporate Events</strong>, and any joyous gatherings. Let SagoBerry Bliss be the aesthetic centerpiece of your celebration.
                 </p>
                 <div>
-                    <button onclick="window.open('https://wa.me/' + ADMIN_WA_NUMBER + '?text=Halo%20SagoBerry,%20saya%20tertarik%20pesan%20untuk%20acara!', '_blank');" class="btn-elegant" style="background: var(--charcoal); color: var(--pure-white); border: none; padding: 16px 45px; border-radius: 50px; font-weight: bold; font-size: 1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: transform 0.3s, box-shadow 0.3s; display: inline-flex; align-items: center; gap: 10px; cursor: pointer;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 25px rgba(0,0,0,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.2)'">
+                    <button onclick="window.open('https://wa.me/' + ADMIN_WA_NUMBER + '?text=Halo%20SagoBerry,%20saya%20tertarik%20pesan%20untuk%20acara!', '_blank');" class="btn-elegant btn-catering">
                         <i class="fas fa-glass-cheers"></i> Order for Events
                     </button>
                 </div>
@@ -1482,12 +1526,16 @@
                 }
             }
 
-            // Maximum slide width (text overflow minus window plus padding)
-            const buffer = window.innerWidth * 0.1;
-            const maxTranslate = massiveTextContainer.scrollWidth - window.innerWidth + buffer; 
-
-            if (maxTranslate > 0) {
-                massiveTextContainer.style.transform = `translateY(-50%) translateX(-${progress * maxTranslate}px)`;
+            // Only apply horizontal translate if on Desktop (screen width > 768px)
+            if (window.innerWidth > 768) {
+                const buffer = window.innerWidth * 0.1;
+                const maxTranslate = massiveTextContainer.scrollWidth - window.innerWidth + buffer; 
+                if (maxTranslate > 0) {
+                    massiveTextContainer.style.transform = `translateY(-50%) translateX(-${progress * maxTranslate}px)`;
+                }
+            } else {
+                // On Mobile, keep it centered vertically and fixed horizontally
+                massiveTextContainer.style.transform = `translateY(-50%) translateX(0)`;
             }
         });
 
